@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HBD 16 Dyan</title>
+  
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+  
+   /* AREA SENTUH TANGAN REZE */
+#rezeHandTouch{
+  position:absolute;
+  z-index:60;
+  width:120px;
+  height:100px;
+  left:40%;
+  bottom:20px;
+  transform:translateX(-50%);
+  background:transparent;
+  cursor:pointer;
+  
+  box-shadow:
+    0 0 10px rgba(255,255,255,.7),
+    0 0 25px rgba(80,180,255,.9),
+    0 0 45px rgba(80,180,255,.7);
+
+  animation:handGlow 1.2s infinite;
+}
+  
+  @keyframes handGlow{
+  0%,100%{
+    opacity:.6;
+  }
+  50%{
+    opacity:1;
+  }
+}
+  
+  /* TULISAN PETUNJUK */
+#handHint{
+  position:absolute;
+  z-index:61;
+  left:40%;
+  bottom:30px;
+  transform:translateX(-50%);
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  background:rgba(0,0,0,.55);
+  padding:10px 16px;
+  border-radius:20px;
+  text-align:center;
+  animation:hintPulse 1s infinite;
+  pointer-events:none;
+}
+  
+  /* EFEK GETAR TANGAN */
+#rezeHandTouch.shake{
+  animation:handShake .15s infinite;
+}
+
+@keyframes handShake{
+  0%{
+    transform:translateX(-50%) rotate(0deg);
+  }
+
+  25%{
+    transform:translateX(-50%) rotate(-4deg);
+  }
+
+  50%{
+    transform:translateX(-50%) rotate(4deg);
+  }
+
+  75%{
+    transform:translateX(-50%) rotate(-4deg);
+  }
+
+  100%{
+    transform:translateX(-50%) rotate(0deg);
+  }
+}
+
+/* EFEK TULISAN PETUNJUK */
+@keyframes hintPulse{
+  0%,100%{
+    transform:translateX(-50%) scale(1);
+  }
+
+  50%{
+    transform:translateX(-50%) scale(1.08);
+  }
+}
+
+.screen{
+  display:none;
+  width:100vw;
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+
+.screen.show{
+  display:flex !important;
+}
+
+  #afterCakeScreen{
+  background:
+    radial-gradient(
+      circle at center,
+      #111a51,
+      #03040d 65%,
+      #000 100%
+    );
+}
+
+/* ================================================= */
+/* REZE */
+/* ================================================= */
+
+.reze{
+  position:absolute;
+  width:260px;
+  max-height:430px;
+  object-fit:contain;
+  z-index:30;
+
+  filter:
+    drop-shadow(0 8px 12px rgba(0,0,0,.35));
+
+  animation:
+    rezeFloat 2.8s ease-in-out infinite;
+}
+
+.reze.left{
+  left:-60px;
+  bottom:100px;
+}
+
+.reze.right{
+  right:-45px;
+  bottom:100px;
+}
+
+.reze.center{
+  left:50%;
+  bottom:80px;
+  transform:translateX(-50%);
+}
+  .firework-reze{
+  left:50% !important;
+    right:auto !important;
+  bottom:0 !important;
+  width:880px !important;
+    max-width:none !important;
+  max-height:auto !important;
+    height:auto !important;
+  transform:translateX(-50%) scale(1.35) !important;
+    transform-origin:bottom center;
+    animation:none !important;
+}
+
+@keyframes rezeFloat{
+  0%,100%{
+    margin-top:0;
+    transform:translateY(0) rotate(-1deg);
+  }
+
+  50%{
+    margin-top:-12px;
+    transform:translateY(-7px) rotate(1deg);
+  }
+}
+
+.reze.right{
+  animation-name:rezeFloatRight;
+}
+
+@keyframes rezeFloatRight{
+  0%,100%{
+    transform:translateY(0) rotate(1deg);
+  }
+
+  50%{
+    transform:translateY(-8px) rotate(-1deg);
+  }
+}
+
+
+/* ================================================= */
+/* DIALOG REZE */
+/* ================================================= */
+
+.dialog{
+  position:absolute;
+  z-index:40;
+
+  width:min(430px,75%);
+  padding:17px 20px;
+
+  background:rgba(255,255,255,.95);
+  color:#222;
+
+  border-radius:22px;
+
+  font-size:17px;
+  line-height:1.45;
+  font-weight:bold;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.35);
+
+  opacity:0;
+  transform:scale(.7);
+
+  transition:
+    opacity .5s,
+    transform .5s;
+}
+
+.dialog.show{
+  opacity:1;
+  transform:scale(1);
+}
+
+.dialog.leftDialog{
+  left:30%;
+  top:15%;
+}
+
+.dialog.rightDialog{
+  right:30%;
+  top:15%;
+}
+
+.dialog.centerDialog{
+  left:50%;
+  top:10%;
+  transform:translateX(-50%) scale(.7);
+}
+
+.dialog.centerDialog.show{
+  transform:translateX(-50%) scale(1);
+}
+
+.dialog:after{
+  content:"";
+  position:absolute;
+
+  bottom:-14px;
+  left:35px;
+
+  width:0;
+  height:0;
+
+  border-left:15px solid transparent;
+  border-right:15px solid transparent;
+  border-top:16px solid white;
+}
+
+
+/* ================================================= */
+/* BUTTON */
+/* ================================================= */
+
+.mainBtn{
+  border:none;
+  border-radius:30px;
+
+  padding:13px 28px;
+
+  font-size:17px;
+  font-weight:bold;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 6px 15px rgba(0,0,0,.25);
+}
+
+
+/* ================================================= */
+/* PEMBUKAAN */
+/* ================================================= */
+
+#introScreen{
+  background:
+    radial-gradient(circle at 70% 20%,rgba(255,80,130,.18),transparent 25%),
+    linear-gradient(135deg,#11152c,#242d61,#11152c);
+
+  align-items:center;
+  justify-content:center;
+}
+
+.introTitle{
+  position:absolute;
+  top:35px;
+
+  color:white;
+
+  font-size:30px;
+  font-weight:bold;
+
+  text-shadow:
+    0 3px 8px rgba(0,0,0,.5);
+
+  z-index:45;
+}
+
+.introButton{
+  position:absolute;
+  bottom:35px;
+  z-index:50;
+
+  background:#ff6f91;
+  color:white;
+}
+
+
+/* ================================================= */
+/* GAME */
+/* ================================================= */
+
+#cardsScreen{
+  background:
+    linear-gradient(135deg,#2a79c9,#61d5f3);
+
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.gameTitle{
+  color:white;
+  font-size:29px;
+  font-weight:bold;
+  margin-bottom:25px;
+
+  text-shadow:
+    0 3px 7px rgba(0,0,0,.3);
+}
+
+#cardBox{
+  width:340px;
+
+  display:grid;
+  grid-template-columns:
+    repeat(4,70px);
+
+  gap:13px;
+
+  justify-content:center;
+}
+
+.card{
+  width:70px;
+  height:85px;
+
+  perspective:800px;
+
+  cursor:pointer;
+}
+
+.cardInner{
+  width:100%;
+  height:100%;
+
+  position:relative;
+
+  transform-style:preserve-3d;
+
+  transition:
+    transform .5s;
+}
+
+.card.open .cardInner,
+.card.matched .cardInner{
+  transform:rotateY(180deg);
+}
+
+.cardFront,
+.cardBack{
+  position:absolute;
+
+  width:100%;
+  height:100%;
+
+  border-radius:15px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  backface-visibility:hidden;
+
+  box-shadow:
+    0 6px 12px rgba(0,0,0,.25);
+}
+
+.cardFront{
+  background:white;
+  color:#3185ce;
+
+  font-size:29px;
+  font-weight:bold;
+}
+
+.cardBack{
+  background:#ffd34d;
+
+  transform:rotateY(180deg);
+
+  font-size:33px;
+}
+
+
+/* ================================================= */
+/* SETELAH GAME */
+/* ================================================= */
+
+#successScreen{
+  background:
+    linear-gradient(135deg,#2379c9,#62d6ef);
+
+  align-items:center;
+  justify-content:center;
+}
+
+.successButton{
+  position:absolute;
+  bottom:35px;
+
+  background:white;
+  color:#2677c8;
+  z-index:50;
+}
+
+/* ================================================= */
+/* PERTANYAAN YES NO */
+/* ================================================= */
+
+#choiceScreen{
+  background:
+    linear-gradient(135deg,#2379c9,#6bd8f1);
+
+  align-items:center;
+  justify-content:center;
+}
+
+.choiceButtons{
+  position:absolute;
+  bottom:35px;
+
+  z-index:50;
+}
+
+.choiceBtn{
+  padding:12px 28px;
+
+  border:none;
+  border-radius:25px;
+
+  margin:5px;
+
+  font-weight:bold;
+  font-size:16px;
+
+  cursor:pointer;
+}
+
+.no{
+  background:white;
+  color:#e74c3c;
+}
+
+.yes{
+  background:#ffd43b;
+  color:#222;
+}
+
+
+/* ================================================= */
+/* KUE */
+/* ================================================= */
+
+#cakeScreen{
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(255,190,70,.15),
+      transparent 30%
+    ),
+    #03040a;
+
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+
+  transition:
+    background 2s ease;
+}
+
+#cakeScreen.bright{
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(255,255,255,.45),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #2385d4,
+      #67d9f5,
+      #3f87df
+    );
+}
+
+.cakeTitle{
+  position:absolute;
+
+  top:30px;
+
+  width:100%;
+
+  text-align:center;
+
+  color:white;
+
+  z-index:30;
+}
+
+.cakeTitle h1{
+  font-size:31px;
+
+  text-shadow:
+    0 3px 8px rgba(0,0,0,.5);
+}
+
+.cakeTitle p{
+  font-size:17px;
+
+  margin-top:5px;
+}
+
+
+/* ================================================= */
+/* KUE SEDERHANA */
+/* ================================================= */
+
+.cake{
+  position:relative;
+
+  width:390px;
+  height:400px;
+
+  margin-top:45px;
+}
+
+
+/* piring */
+
+.plate{
+  position:absolute;
+
+  width:330px;
+  height:28px;
+
+  left:30px;
+  bottom:38px;
+
+  background:
+    linear-gradient(
+      #ffffff,
+      #bfc9d8
+    );
+
+  border-radius:50%;
+
+  box-shadow:
+    0 8px 15px rgba(0,0,0,.4);
+}
+
+
+/* badan kue */
+
+.cakeBody{
+  position:absolute;
+
+  width:280px;
+  height:145px;
+
+  left:55px;
+  bottom:52px;
+
+  border-radius:
+    18px 18px 30px 30px;
+
+  background:
+    linear-gradient(
+      #a84d20,
+      #59200e
+    );
+
+  box-shadow:
+    inset 0 10px 0 rgba(255,255,255,.14),
+    0 12px 20px rgba(0,0,0,.45);
+}
+
+
+/* cream */
+
+.cream{
+  position:absolute;
+
+  width:280px;
+  height:32px;
+
+  left:55px;
+  bottom:178px;
+
+  background:
+    linear-gradient(
+      #fffdf8,
+      #f4ded0
+    );
+
+  border-radius:50%;
+
+  z-index:5;
+
+  box-shadow:
+    0 3px 6px rgba(0,0,0,.2);
+}
+
+
+/* cream dripping */
+
+.drip{
+  position:absolute;
+
+  width:18px;
+  height:28px;
+
+  background:#fff8ee;
+
+  border-radius:
+    0 0 12px 12px;
+
+  z-index:6;
+}
+
+.d1{left:85px;bottom:162px;}
+.d2{left:130px;bottom:162px;}
+.d3{left:180px;bottom:162px;}
+.d4{left:230px;bottom:162px;}
+.d5{left:275px;bottom:162px;}
+
+
+/* ================================================= */
+/* BANYAK LILIN */
+/* ================================================= */
+
+.candleRow{
+  position:absolute;
+
+  left:50%;
+  bottom:183px;
+
+  transform:translateX(-50%);
+
+  display:flex;
+  align-items:flex-end;
+
+  gap:4px;
+
+  z-index:15;
+}
+
+.smallCandle{
+  position:relative;
+
+  width:17px;
+  height:75px;
+
+  border-radius:4px 4px 2px 2px;
+
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      #ff496c 0px,
+      #ff496c 6px,
+      #fff 6px,
+      #fff 10px
+    );
+
+  border:1px solid rgba(255,255,255,.8);
+
+  box-shadow:
+    0 3px 5px rgba(0,0,0,.3);
+}
+
+.smallCandle:nth-child(2n){
+  height:67px;
+}
+
+.smallCandle:nth-child(3n){
+  height:82px;
+}
+
+.smallWick{
+  position:absolute;
+
+  width:2px;
+  height:7px;
+
+  left:50%;
+  top:-7px;
+
+  transform:translateX(-50%);
+
+  background:#222;
+}
+
+.smallFlame{
+  position:absolute;
+
+  width:12px;
+  height:19px;
+
+  left:50%;
+  top:-27px;
+
+  transform:translateX(-50%);
+
+  border-radius:
+    50% 50% 50% 50%;
+
+  background:
+    radial-gradient(
+      circle at 50% 70%,
+      #fffbd0,
+      #ffd740 35%,
+      #ff9800 65%,
+      #ff4500
+    );
+
+  box-shadow:
+    0 0 8px #ffd54f,
+    0 0 15px #ff9800;
+
+  animation:
+    flame .4s infinite alternate;
+}
+
+.smallFlame.off{
+  display:none;
+}
+
+@keyframes flame{
+  from{
+    transform:
+      translateX(-50%)
+      scale(.85)
+      rotate(-4deg);
+  }
+
+  to{
+    transform:
+      translateX(-50%)
+      scale(1.1)
+      rotate(4deg);
+  }
+}
+
+
+/* ================================================= */
+/* TOPPING */
+/* ================================================= */
+
+.topping{
+  position:absolute;
+
+  z-index:12;
+
+  font-size:20px;
+}
+
+.t1{left:85px;bottom:195px;}
+.t2{left:125px;bottom:190px;}
+.t3{left:170px;bottom:195px;}
+.t4{left:215px;bottom:190px;}
+.t5{left:260px;bottom:195px;}
+
+
+/* ================================================= */
+/* BALON SAMPING KUE */
+/* ================================================= */
+
+.cakeBalloon{
+  position:absolute;
+
+  font-size:60px;
+
+  z-index:25;
+
+  animation:
+    cakeBalloonFloat
+    2.5s ease-in-out infinite alternate;
+
+  filter:
+    drop-shadow(0 5px 7px rgba(0,0,0,.4));
+}
+
+.cakeBalloon.a{
+  left:-10px;
+  bottom:135px;
+}
+
+.cakeBalloon.b{
+  right:-10px;
+  bottom:135px;
+}
+
+.cakeBalloon.c{
+  left:15px;
+  bottom:245px;
+  font-size:45px;
+}
+
+.cakeBalloon.d{
+  right:15px;
+  bottom:245px;
+  font-size:45px;
+}
+
+@keyframes cakeBalloonFloat{
+  from{
+    transform:translateY(0) rotate(-4deg);
+  }
+
+  to{
+    transform:translateY(-13px) rotate(5deg);
+  }
+}
+
+
+/* ================================================= */
+/* BALON TERBANG */
+/* ================================================= */
+
+.blowBalloon{
+  position:absolute;
+
+  bottom:-100px;
+
+  z-index:60;
+
+  animation:
+    balloonUp
+    var(--duration)
+    ease-out
+    forwards;
+}
+
+@keyframes balloonUp{
+
+  0%{
+    opacity:0;
+
+    transform:
+      translate(0,0)
+      rotate(0deg)
+      scale(.7);
+  }
+
+  10%{
+    opacity:1;
+  }
+
+  50%{
+    transform:
+      translate(var(--d1),-55vh)
+      rotate(var(--r1))
+      scale(1);
+  }
+
+  100%{
+    transform:
+      translate(var(--d2),-125vh)
+      rotate(var(--r2))
+      scale(.85);
+
+    opacity:0;
+  }
+}
+
+
+/* ================================================= */
+/* TOMBOL KUE */
+/* ================================================= */
+
+#blowButton{
+  background:white;
+  color:#246eae;
+
+  z-index:70;
+}
+
+#nextCakeButton{
+  display:none;
+
+  background:#ffda44;
+  color:#222;
+
+  margin-top:10px;
+
+  z-index:70;
+}
+
+
+/* ================================================= */
+/* PESAN */
+/* ================================================= */
+
+#messageScreen{
+  background:
+    linear-gradient(
+      135deg,
+      #1767bd,
+      #4fc9ef,
+      #648de5
+    );
+
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+}
+
+.messageBalloon{
+  position:absolute;
+
+  bottom:-100px;
+
+  font-size:52px;
+
+  animation:
+    messageBalloonUp
+    8s linear infinite;
+
+  z-index:2;
+}
+
+@keyframes messageBalloonUp{
+  from{
+    transform:translateY(0) rotate(-5deg);
+  }
+
+  to{
+    transform:translateY(-120vh) rotate(8deg);
+  }
+}
+
+.messageBox{
+  position:relative;
+
+  width:90%;
+  max-width:680px;
+
+  max-height:65vh;
+
+  overflow:auto;
+
+  padding:27px;
+
+  color:white;
+
+  background:
+    rgba(255,255,255,.24);
+
+  border:
+    2px solid rgba(255,255,255,.5);
+
+  border-radius:25px;
+
+  line-height:1.7;
+  font-size:16px;
+
+  z-index:10;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.2);
+}
+
+.messageTitle{
+  text-align:center;
+
+  font-size:27px;
+  font-weight:bold;
+
+  margin-bottom:18px;
+}
+
+.messageBox p{
+  margin-bottom:16px;
+}
+
+
+/* ================================================= */
+/* PERTANYAAN AKHIR */
+/* ================================================= */
+
+#questionBox{
+  position:absolute;
+
+  bottom:13px;
+
+  text-align:center;
+
+  z-index:30;
+
+  width:100%;
+}
+
+#questionBox h2{
+  color:white;
+
+  font-size:19px;
+
+  margin-bottom:9px;
+}
+
+.questionBtn{
+  padding:10px 24px;
+
+  border:none;
+  border-radius:25px;
+
+  margin:4px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+#noBtn{
+  background:white;
+  color:#e74c3c;
+}
+
+#yesBtn{
+  background:#ffd43b;
+}
+
+
+/* ================================================= */
+/* FIREWORK */
+/* ================================================= */
+
+#fireworkScreen{
+  background:
+    radial-gradient(
+      circle at center,
+      #111a51,
+      #03040d 65%,
+      #000 100%
+    );
+
+  align-items:center;
+  justify-content:center;
+}
+
+#fireworkCanvas{
+  position:absolute;
+
+  width:100%;
+  height:100%;
+
+  left:0;
+  top:0;
+}
+
+#fireworkMessage{
+  position:absolute;
+top:20%;
+  
+  color:white;
+
+  font-size:40px;
+  font-weight:bold;
+
+  opacity:0;
+
+  transform:scale(.5);
+
+  z-index:50;
+
+  text-shadow:
+    0 0 10px white,
+    0 0 25px #4db8ff,
+    0 0 40px #ff4de1;
+
+  transition:
+    1.5s;
+}
+
+#fireworkMessage.show{
+  opacity:1;
+  transform:scale(1);
+}
+
+
+/* ================================================= */
+/* HP */
+/* ================================================= */
+
+@media(max-width:500px){
+
+  .reze{
+    width:260px;
+    max-height:430px;
+  }
+
+  .reze.left{
+    left:-38;
+  }
+
+  .reze.right{
+    right:-38;
+  }
+
+  .dialog{
+    width:58%;
+    font-size:15px;
+  padding:17px 18px;
+  line-height:1.55;
+}
+
+  .dialog.leftDialog{
+    left:38%;
+    top:6%;
+  }
+
+  .dialog.rightDialog{
+    right:38%;
+    top:6%;
+  }
+
+  .introTitle{
+    font-size:25px;
+  }
+
+  #cardBox{
+    grid-template-columns:
+      repeat(4,62px);
+
+    gap:9px;
+  }
+
+  .card{
+    width:62px;
+    height:75px;
+  }
+
+  .cake{
+    transform:scale(.78);
+  }
+
+  .cakeTitle h1{
+    font-size:27px;
+  }
+
+  .messageBox{
+    width:92%;
+    font-size:15px;
+    padding:22px;
+  }
+
+  .messageTitle{
+    font-size:24px;
+  }
+
+  #fireworkMessage{
+    font-size:35px;
+  }
+}
+</style>
+</head>
+
+
+<body>
+
+<!-- ================================================= -->
+<!-- INTRO REZE -->
+<!-- ================================================= -->
+
+<div id="introScreen" class="screen show">
+
+  <img
+    src="reze.png"
+    class="reze left"
+    alt="Reze">
+
+  <div
+    class="dialog leftDialog"
+    id="introDialog">
+    Heii! 👋 Sebelum masuk aku mau kasih kamu game kecil duluu 😆
+    <br><br>
+    Coba cari semua pasangan kartu yang sama yaa!
+  </div>
+
+  <button
+    class="mainBtn introButton"
+    id="startGameButton">
+    MULAI GAME 🎮
+  </button>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- GAME -->
+<!-- ================================================= -->
+
+<div id="cardsScreen" class="screen">
+
+  <div class="gameTitle">
+    Cari Kartu yang Sama 🎴
+  </div>
+
+  <div id="cardBox">
+
+    <div class="card" data-value="😭">
+      <div class="cardInner">
+        <div class="cardFront">?</div>
+        <div class="cardBack">😭</div>
+      </div>
+    </div>
+
+    <div class="card" data-value="😎">
+      <div class="cardInner">
+        <div class="cardFront">?</div>
+        <div class="cardBack">😎</div>
+      </div>
+    </div>
+
+    <div class="card" data-value="😙">
+      <div class="cardInner">
+        <div class="cardFront">?</div>
+        <div class="cardBack">😙</div>
+      </div>
+    </div>
+
+    <div class="card" data-value="😋">
+      <div class="cardInner">
+        <div class="cardFront">?</div>
+        <div class="cardBack">😋</div>
+      </div>
+    </div>
+
+    <div class="card" data-value="😋">
+      <div class="cardInner">
+        <div class="cardFront">?</div>
+        <div class="cardBack">😋</div>
+      </div>
+    </div>
+
+    <div class="card" data-value="😭">
+      <div class="cardInner">
+        <div class="cardFront">?</div>
+        <div class="cardBack">😭</div>
+      </div>
+    </div>
+
+    <div class="card" data-value="😎">
+      <div class="cardInner">
+        <div class="cardFront">?</div>
+        <div class="cardBack">😎</div>
+      </div>
+    </div>
+
+    <div class="card" data-value="😙">
+      <div class="cardInner">
+        <div class="cardFront">?</div>
+        <div class="cardBack">😙</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- REZE SETELAH GAME -->
+<!-- ================================================= -->
+
+<div id="successScreen" class="screen">
+
+  <img
+    src="reze 1.png"
+    class="reze right"
+    alt="Reze">
+
+  <div
+    class="dialog rightDialog"
+    id="successDialog">
+
+    Yeyyy kamu berhasil! 🎉
+    <br><br>
+    Ternyata kamu jago juga yaa 😆
+    <br><br>
+    Tapiii... aku pengen kamu lakuin sesuatu.
+
+  </div>
+
+  <button
+    class="mainBtn successButton"
+    id="successNext">
+    LANJUT ✨
+  </button>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- YES NO -->
+<!-- ================================================= -->
+
+<div id="choiceScreen" class="screen">
+
+  <img
+    src="reze 2.png"
+    class="reze left"
+    alt="Reze">
+
+  <div
+    class="dialog leftDialog"
+    style="top:12%;">
+
+    Kamu mau? 👀
+    <br>
+    Ada kejutan kecil buat kamu...
+  </div>
+
+  <div class="choiceButtons">
+
+    <button
+      class="choiceBtn no"
+      id="choiceNo">
+      NO 😭
+    </button>
+
+    <button
+      class="choiceBtn yes"
+      id="choiceYes">
+      YES! ✨
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- KUE -->
+<!-- ================================================= -->
+
+<div id="cakeScreen" class="screen">
+
+  <div class="cakeTitle">
+
+    <h1>
+      Tiup Lilinnya! 🎂
+    </h1>
+
+    <p>
+      Make a wish duluu ✨
+    </p>
+
+  </div>
+
+
+  <!-- BALON SAMPING -->
+
+  <div class="cakeBalloon a">
+    🎈
+  </div>
+
+  <div class="cakeBalloon b">
+    🎈
+  </div>
+
+  <div class="cakeBalloon c">
+    🎈
+  </div>
+
+  <div class="cakeBalloon d">
+    🎈
+  </div>
+
+
+  <!-- KUE -->
+
+  <div class="cake">
+
+    <div class="plate"></div>
+
+    <div class="cakeBody"></div>
+
+    <div class="cream"></div>
+
+    <div class="drip d1"></div>
+    <div class="drip d2"></div>
+    <div class="drip d3"></div>
+    <div class="drip d4"></div>
+    <div class="drip d5"></div>
+
+
+    <!-- LILIN BANYAK -->
+
+    <div class="candleRow">
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+      <div class="smallCandle">
+        <div class="smallWick"></div>
+        <div class="smallFlame"></div>
+      </div>
+
+    </div>
+
+
+    <!-- TOPPING -->
+
+    <div class="topping t1">🍓</div>
+    <div class="topping t2">🍫</div>
+    <div class="topping t3">🍓</div>
+    <div class="topping t4">🍫</div>
+    <div class="topping t5">🍓</div>
+
+  </div>
+
+
+  <button
+    id="blowButton"
+    class="mainBtn">
+    💨 TIUP LILIN
+  </button>
+
+  <button
+    id="nextCakeButton"
+    class="mainBtn">
+    LANJUT ✨
+  </button>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- REZE SETELAH TIUP -->
+<!-- ================================================= -->
+
+<div id="afterCakeScreen" class="screen">
+
+  <img
+    src="reze 3.png"
+    class="reze center"
+    alt="Reze">
+
+  <div
+    class="dialog rightDialog"
+    id="afterCakeDialog">
+
+    Yeyyy! 🎉
+    <br><br>
+    Kamu berhasil meniup semua lilinnya!
+    <br><br>
+    Sekarang ada satu hal lagi buat kamu... ❤️
+
+  </div>
+
+  <button
+    class="mainBtn"
+    id="afterCakeButton"
+    style="
+      position:absolute;
+      bottom:30px;
+      background:white;
+      color:#2474bd;
+      z-index:50;
+    ">
+    LANJUT 💌
+  </button>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- PESAN -->
+<!-- ================================================= -->
+
+<div id="messageScreen" class="screen">
+
+  <div
+    class="messageBalloon"
+    style="left:4%;animation-delay:0s;">
+    🎈
+  </div>
+
+  <div
+    class="messageBalloon"
+    style="left:12%;animation-delay:2s;">
+    🎈
+  </div>
+
+  <div
+    class="messageBalloon"
+    style="right:4%;animation-delay:1s;">
+    🎈
+  </div>
+
+  <div
+    class="messageBalloon"
+    style="right:12%;animation-delay:3s;">
+    🎈
+  </div>
+
+
+  <div class="messageBox">
+
+    <div class="messageTitle">
+      🎂 Selamat Ulang Tahun Dyan! 🎂
+    </div>
+
+    <p>
+      Selamat ulang tahun yang ke-16 tahunnn yannn, semogaaa di umur muu yang ke 16 tahun ini Dann sampaiii kapann punn kamu selalu bahagiaa, jalan mu di permudah, di temukan dengan orang orang yang baikkk Dann membuat mu menjadi seseorang yang lebih baikk.
+    </p>
+
+    <p>
+      Ga urus sesibuk apapun kamu jangan lupa yahh istirahat dengan baik, makan yang banyak dan cintai dirimu yahhh
+    </p>
+
+    <p>
+      Mungkin hari hari mu ga selalu indah tapi, Jan nyerah yah, langkah mu tetap masa depan. Tugas mu hanya menjadi lebih baik dari hari kemarin, bukan menjadi sempurna. Jadilah seseorang yang terbaik Fersi mu bukan lebih baik dari orang lain.
+    </p>
+
+    <p>
+      Kalau suatu saat kamu merasa capek, ingatlah kalau kamu sudah sejauh ini dan masih terus berjalan. Pelan-pelan aja, ga harus selalu kuat setiap saat. Semoga semua hal baik yang kamu tunggu, satu per satu datang di waktu yang tepat.
+    </p>
+
+    <p>
+      Sekali lagi, selamat ulang tahun yang ke-16 Dannnn! 😭😎😙😋🎂🎉
+      <br>
+      Semoga tahun ini menjadi salah satu bagian terbaik dalam cerita hidupmu. ❤️✨
+    </p>
+
+  </div>
+
+
+  <div id="questionBox">
+
+    <h2>
+      Mau lanjut ke kejutan terakhir? 🎆
+    </h2>
+
+    <button
+      class="questionBtn"
+      id="noBtn">
+      GA 😭
+    </button>
+
+    <button
+      class="questionBtn"
+      id="yesBtn">
+      YESS! 🎆
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- FIREWORK -->
+<!-- ================================================= -->
+
+<div id="fireworkScreen" class="screen">
+
+  <canvas id="fireworkCanvas"></canvas>
+
+  <img src="reze 4.PNG" class="reze firework-reze" alt="Reze">
+  <div id="handHint">
+  👆 PEGANG TANGAN REZE
+</div>
+  <div id="rezeHandTouch" onclick="startFireworks()"></div>
+  
+  <div id="fireworkMessage">
+    HBD - 16 TH
+  </div>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- AUDIO -->
+<!-- ================================================= -->
+
+<audio id="monokrom" loop>
+  <source src="monokrom.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="fireworkSound" src="kembang api.mp3"></audio>
+
+
+<script>
+
+/* ================================================= */
+/* SCREEN */
+/* ================================================= */
+
+function showScreen(id){
+
+  var screens=
+    document.querySelectorAll(".screen");
+
+  for(var i=0;i<screens.length;i++){
+    screens[i].classList.remove("show");
+  }
+
+  document
+    .getElementById(id)
+    .classList.add("show");
+}
+
+
+/* ================================================= */
+/* INTRO */
+/* ================================================= */
+
+setTimeout(function(){
+
+  document
+    .getElementById("introDialog")
+    .classList.add("show");
+
+},500);
+
+
+document
+  .getElementById("startGameButton")
+  .onclick=function(){
+
+    showScreen("cardsScreen");
+
+  };
+
+
+/* ================================================= */
+/* KARTU */
+/* ================================================= */
+
+var cards=
+  document.querySelectorAll(".card");
+
+var firstCard=null;
+var secondCard=null;
+
+var locked=false;
+var matched=0;
+
+
+function shuffleCards(){
+
+  var box=
+    document.getElementById("cardBox");
+
+  var arr=[];
+
+  for(var i=0;i<cards.length;i++){
+    arr.push(cards[i]);
+  }
+
+  for(
+    var j=arr.length-1;
+    j>0;
+    j--
+  ){
+
+    var r=
+      Math.floor(
+        Math.random()*(j+1)
+      );
+
+    var temp=arr[j];
+
+    arr[j]=arr[r];
+    arr[r]=temp;
+  }
+
+  for(var k=0;k<arr.length;k++){
+    box.appendChild(arr[k]);
+  }
+}
+
+shuffleCards();
+
+
+for(var i=0;i<cards.length;i++){
+
+  cards[i].onclick=function(){
+
+    if(locked){
+      return;
+    }
+
+    if(
+      this.classList.contains("open") ||
+      this.classList.contains("matched")
+    ){
+      return;
+    }
+
+    this.classList.add("open");
+
+    if(firstCard===null){
+
+      firstCard=this;
+
+    }else{
+
+      secondCard=this;
+
+      locked=true;
+
+      var a=
+        firstCard.getAttribute("data-value");
+
+      var b=
+        secondCard.getAttribute("data-value");
+
+
+      if(a===b){
+
+        firstCard.classList.add("matched");
+        secondCard.classList.add("matched");
+
+        matched+=2;
+
+        firstCard=null;
+        secondCard=null;
+
+        locked=false;
+
+
+        if(matched===cards.length){
+
+          setTimeout(
+            function(){
+
+              showScreen("successScreen");
+
+              setTimeout(
+                function(){
+
+                  document
+                    .getElementById("successDialog")
+                    .classList.add("show");
+
+              },300);
+
+            },
+            600
+          );
+
+        }
+
+      }else{
+
+        setTimeout(
+          function(){
+
+            firstCard
+              .classList
+              .remove("open");
+
+            secondCard
+              .classList
+              .remove("open");
+
+            firstCard=null;
+            secondCard=null;
+
+            locked=false;
+
+          },
+          900
+        );
+
+      }
+
+    }
+
+  };
+
+}
+
+
+/* ================================================= */
+/* SUCCESS → CHOICE */
+/* ================================================= */
+
+document
+  .getElementById("successNext")
+  .onclick=function(){
+
+    showScreen("choiceScreen");
+
+    setTimeout(
+      function(){
+
+        var d=
+          document.querySelector(
+            "#choiceScreen .dialog"
+          );
+
+        d.classList.add("show");
+
+      },
+      300
+    );
+
+  };
+
+
+/* ================================================= */
+/* NO */
+/* ================================================= */
+
+document
+  .getElementById("choiceNo")
+  .onclick=function(){
+
+    /* kalau NO tetap kasih pilihan lagi */
+
+    var d=
+      document.querySelector(
+        "#choiceScreen .dialog"
+      );
+
+    d.innerHTML=
+      "Hehe jangan NO dong 😭<br><br>" +
+      "Masa kamu nggak penasaran sama kejutannya? 👀";
+
+  };
+
+
+/* ================================================= */
+/* YES → KUE */
+/* ================================================= */
+
+document
+  .getElementById("choiceYes")
+  .onclick=function(){
+
+    showScreen("cakeScreen");
+
+    var monokrom=
+      document.getElementById("monokrom");
+
+    try{
+      monokrom.currentTime=0;
+      monokrom.play();
+    }catch(e){}
+
+  };
+
+
+/* ================================================= */
+/* BALON SETELAH TIUP */
+/* ================================================= */
+
+function createBlowBalloons(){
+
+  var screen=
+    document.getElementById("cakeScreen");
+
+
+  for(var i=0;i<35;i++){
+
+    var b=
+      document.createElement("div");
+
+    b.className=
+      "blowBalloon";
+
+    b.innerHTML="🎈";
+
+
+    b.style.left=
+      Math.random()*100+"%";
+
+
+    b.style.fontSize=
+      (30+
+      Math.random()*34)+"px";
+
+
+    b.style.setProperty(
+      "--duration",
+      (4+
+      Math.random()*3)+"s"
+    );
+
+
+    b.style.setProperty(
+      "--d1",
+      (-100+
+      Math.random()*200)+"px"
+    );
+
+
+    b.style.setProperty(
+      "--d2",
+      (-220+
+      Math.random()*440)+"px"
+    );
+
+
+    b.style.setProperty(
+      "--r1",
+      (-15+
+      Math.random()*30)+"deg"
+    );
+
+
+    b.style.setProperty(
+      "--r2",
+      (-35+
+      Math.random()*70)+"deg"
+    );
+
+
+    b.style.animationDelay=
+      Math.random()*1+"s";
+
+
+    screen.appendChild(b);
+
+
+    (function(balloon){
+
+      setTimeout(
+        function(){
+
+          if(balloon.parentNode){
+            balloon.parentNode.removeChild(balloon);
+          }
+
+        },
+        8000
+      );
+
+    })(b);
+
+  }
+
+}
+
+
+/* ================================================= */
+/* CONFETTI */
+/* ================================================= */
+
+function createConfetti(){
+
+  var screen=
+    document.getElementById("cakeScreen");
+
+
+  for(var i=0;i<70;i++){
+
+    var c=
+      document.createElement("div");
+
+    c.style.position="absolute";
+
+    c.style.width="8px";
+    c.style.height="13px";
+
+    c.style.left=
+      Math.random()*100+"%";
+
+    c.style.top="-20px";
+
+    c.style.zIndex="65";
+
+    c.style.background=
+      "hsl("+
+      Math.random()*360+
+      ",100%,60%)";
+
+    c.style.animation=
+      "confettiDrop "+
+      (2+
+      Math.random()*3)+
+      "s linear forwards";
+
+    screen.appendChild(c);
+
+  }
+
+}
+
+
+/* tambah animasi confetti */
+
+var confettiStyle=
+  document.createElement("style");
+
+confettiStyle.innerHTML=
+"@keyframes confettiDrop{" +
+"0%{transform:translateY(0) rotate(0deg)}" +
+"100%{transform:translateY(110vh) rotate(720deg);opacity:0}" +
+"}";
+
+document.head.appendChild(confettiStyle);
+
+
+/* ================================================= */
+/* TIUP LILIN */
+/* ================================================= */
+
+document
+  .getElementById("blowButton")
+  .onclick=function(){
+
+    var flames=
+      document.querySelectorAll(
+        ".smallFlame"
+      );
+
+
+    this.style.display="none";
+
+
+    for(var i=0;i<flames.length;i++){
+
+      (function(index){
+
+        setTimeout(
+          function(){
+
+            flames[index]
+              .classList
+              .add("off");
+
+          },
+          index*100
+        );
+
+      })(i);
+
+    }
+
+
+    /* langsung banyak balon */
+
+    createBlowBalloons();
+
+    createConfetti();
+
+
+    /* background gelap → terang */
+
+    setTimeout(
+      function(){
+
+        document
+          .getElementById("cakeScreen")
+          .classList.add("bright");
+
+      },
+      500
+    );
+
+
+    /* tombol lanjut */
+
+    setTimeout(
+      function(){
+
+        document
+          .getElementById("nextCakeButton")
+          .style.display="block";
+
+      },
+      1800
+    );
+
+  };
+
+
+/* ================================================= */
+/* SETELAH KUE → REZE */
+/* ================================================= */
+
+document
+  .getElementById("nextCakeButton")
+  .onclick=function(){
+
+    showScreen("afterCakeScreen");
+
+
+    setTimeout(
+      function(){
+
+        document
+          .getElementById("afterCakeDialog")
+          .classList.add("show");
+
+      },
+      300
+    );
+
+  };
+
+
+/* ================================================= */
+/* REZE → PESAN */
+/* ================================================= */
+
+document
+  .getElementById("afterCakeButton")
+  .onclick=function(){
+
+    showScreen("messageScreen");
+
+
+    var sempurna=
+      document.getElementById("sempurna");
+
+
+    try{
+      sempurna.currentTime=0;
+      sempurna.play();
+    }catch(e){}
+
+  };
+
+
+/* ================================================= */
+/* FIREWORK */
+/* ================================================= */
+
+var canvas=
+  document.getElementById(
+    "fireworkCanvas"
+  );
+
+var ctx=
+  canvas.getContext("2d");
+
+var rockets=[];
+var particles=[];
+
+var fireworksRunning=false;
+var rocketTimer;
+
+
+function resizeCanvas(){
+
+  canvas.width=
+    window.innerWidth;
+
+  canvas.height=
+    window.innerHeight;
+
+}
+
+resizeCanvas();
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+
+function createRocket(){
+
+  rockets.push({
+
+    x:
+      60+
+      Math.random()*
+      (canvas.width-120),
+
+    y:
+      canvas.height+10,
+
+    targetY:
+      80+
+      Math.random()*
+      canvas.height*.45,
+
+    speed:
+      7+
+      Math.random()*3,
+
+    hue:
+      Math.random()*360
+
+  });
+
+}
+
+
+function explode(x,y,hue){
+  
+  var fireworkSound =
+    document.getElementById("fireworkSound");
+
+  fireworkSound.currentTime = 0;
+  fireworkSound.volume = 0.35;
+  fireworkSound.play();
+
+  for(var i=0;i<120;i++){
+
+    var angle=
+      Math.random()*
+      Math.PI*2;
+
+    var speed=
+      1.5+
+      Math.random()*6;
+
+    particles.push({
+
+      x:x,
+      y:y,
+
+      vx:
+        Math.cos(angle)*speed,
+
+      vy:
+        Math.sin(angle)*speed,
+
+      life:
+        70+
+        Math.random()*60,
+
+      maxLife:130,
+
+      hue:
+        (hue+
+        Math.random()*80)%360,
+
+      size:
+        1.5+
+        Math.random()*3
+
+    });
+
+  }
+
+}
+
+
+function animateFireworks(){
+  
+  if(!fireworksRunning){
+    return;
+  }
+
+  ctx.fillStyle="rgba(3,4,18,.20)";
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  for(var i=rockets.length-1;i>=0;i--){
+
+    var r=rockets[i];
+
+    r.y-=r.speed;
+
+    ctx.beginPath();
+    ctx.fillStyle="white";
+    ctx.shadowBlur=12;
+    ctx.shadowColor="white";
+
+    ctx.arc(
+      r.x,
+      r.y,
+      3,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fill();
+    ctx.shadowBlur=0;
+
+    if(r.y<=r.targetY){
+
+      explode(
+        r.x,
+        r.y,
+        r.hue
+      );
+
+      rockets.splice(i,1);
+    }
+  }
+
+  for(var j=particles.length-1;j>=0;j--){
+
+    var p=particles[j];
+
+    p.x+=p.vx;
+    p.y+=p.vy;
+
+    p.vx*=.985;
+    p.vy*=.985;
+    p.vy+=.035;
+
+    p.life--;
+
+    var alpha=p.life/p.maxLife;
+
+    ctx.beginPath();
+
+    ctx.fillStyle=
+      "hsla("+
+      p.hue+
+      ",100%,70%,"+
+      alpha+
+      ")";
+
+    ctx.shadowBlur=10;
+
+    ctx.shadowColor=
+      "hsl("+
+      p.hue+
+      ",100%,70%)";
+
+    ctx.arc(
+      p.x,
+      p.y,
+      p.size,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.shadowBlur=0;
+
+    if(p.life<=0){
+      particles.splice(j,1);
+    }
+  }
+
+  requestAnimationFrame(animateFireworks);
+}
+  
+  function startFireworks(){
+
+  if(fireworksRunning){
+    return;
+  }
+
+  fireworksRunning=true;
+
+  rockets=[];
+  particles=[];
+
+  var hand=
+    document.getElementById("rezeHandTouch");
+    
+    var hint=
+  document.getElementById("handHint");
+
+hint.style.display="none";
+    hand.style.display="none";
+
+  hand.classList.add("shake");
+
+  if(navigator.vibrate){
+    navigator.vibrate([100,50,100,50,150]);
+  }
+
+  for(var i=0;i<4;i++){
+
+    setTimeout(
+      function(){
+        createRocket();
+      },
+      i*350
+    );
+
+  }
+
+  animateFireworks();
+
+  rocketTimer=
+    setInterval(
+      function(){
+
+        if(fireworksRunning){
+          createRocket();
+        }
+
+      },
+      550
+    );
+
+  setTimeout(
+    function(){
+
+      document
+        .getElementById("fireworkMessage")
+        .classList.add("show");
+
+    },
+    5000
+  );
+
+}
+
+
+/* ================================================= */
+/* PESAN → FIREWORK */
+/* ================================================= */
+
+document
+  .getElementById("noBtn")
+  .onclick=function(){
+    /* tetap di pesan */
+  };
+
+
+document
+  .getElementById("yesBtn")
+  .onclick=function(){
+
+    showScreen("fireworkScreen");
+
+  };
+
+</script>
+
+</body>
+</html>
